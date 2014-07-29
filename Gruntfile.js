@@ -1,5 +1,6 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -30,8 +31,8 @@ module.exports = function(grunt) {
         },
         modernizr: {
             dist: {
-                "devFile" : "remote",
-                "outputFile" : "public/js/lib/modernizr.js",
+                "devFile": "remote",
+                "outputFile": "public/js/lib/modernizr.js",
                 "files": {
                     "src": ['public/js/bower_components/*']
                 }
@@ -55,10 +56,18 @@ module.exports = function(grunt) {
                 src: 'public/css/bootstrap.less',
                 dest: 'public/css/styles.less'
             }
+        },
+        mochaTest: {
+            functional: {
+                options: {
+                    reporter: 'spec'
+                },
+                src: ['test/functional/**/*.js']
+            }
         }
     });
 
-    grunt.registerTask('build', [   
+    grunt.registerTask('build', [
         'uglify:dist'
     ]);
 
@@ -74,5 +83,7 @@ module.exports = function(grunt) {
         'rename:bootstrap'
     ]);
 
-    grunt.registerTask('default', 'build');
+    grunt.registerTask('test', ['mochaTest']);
+
+    grunt.registerTask('default', ['build', 'test']);
 }
