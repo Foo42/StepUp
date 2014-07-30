@@ -121,21 +121,41 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     });
 
     app.get('/dashboard', isAuthenticated, function (req, res) {
+        res.render('dashboard');
+    });
+
+    app.get('/leaderboard', function (req, res) {
         activityQuerying.getFastestClimbs(3, function (err, climbs) {
             if (err) {
                 return res.send(500);
             }
-            res.render('dashboard' {
-                leaderboards: {
-                    allTime: climbs
-                }
+            console.log('fastests climbs: ' +
+                JSON.stringify(climbs));
+
+            var position = 1;
+            var trophyImages = {
+                1: 'images/badges/first.png',
+                2: 'images/badges/second.png',
+                3: 'images/badges/third.png',
+            }
+            var climbsViewModel = climbs.map(function (climbRecord) {
+                return {
+                    trophyImage: trophyImages[position],
+                    position: position++,
+                    user: climbRecord.details.user,
+                    durationInSeconds: climbRecord.details.durationInSeconds
+                };
             });
+
+            var viewModel = {
+                leaderboards: {
+                    allTime: climbsViewModel
+                }
+            };
+
+            console.log('viewmodel = ' + JSON.stringify(viewModel));
+            res.render('leaderboard', viewModel);
         });
-
-    });
-
-    app.get('/leaderboard', function (req, res) {
-        res.render('leaderboard');
     });
 
     app.get('/profile', isAuthenticated, function (req, res) {
