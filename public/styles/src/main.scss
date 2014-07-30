@@ -3,7 +3,7 @@ $font-size-base: 16px !default;
 $font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $font-family-base: $font-family-sans-serif !default;
 
-@import '../bower_components/sass-bootstrap/lib/bootstrap';
+@import '../../bower_components/sass-bootstrap/lib/bootstrap';
 @import 'helpers/_variables.scss';
 @import 'helpers/_mixins.scss';
 @import 'fonts/_fonts.scss';

@@ -1,4 +1,4 @@
-/* 
+/*
  * Dependencies
  */
 var express = require('express'),
@@ -7,8 +7,7 @@ var express = require('express'),
     http = require('http'),
     exphbs = require('express3-handlebars'),
     passport = require('./authentication/configurePassport'),
-    sassMiddleware = require('node-sass-middleware'),
-    lessMiddleware = require('less-middleware');
+    sassMiddleware = require('node-sass-middleware');
 
 
 /*
@@ -17,7 +16,7 @@ var express = require('express'),
 var app = express();
 
 
-/* 
+/*
  * App Configurations
  */
 app.configure(function () {
@@ -33,17 +32,8 @@ app.configure(function () {
     }));
     app.enable('view cache');
 
-    app.use(lessMiddleware({
-        src: __dirname + '/public',
-        compress: true,
-        sourceMap: true
-    }));
-    app.use(sassMiddleware({
-        src: __dirname + '/public/styles/src',
-        dest: __dirname + '/public/styles/',
-        debug: true,
-        outputStyle: 'compressed'
-    }));
+
+
     app.use(express.static(path.join(__dirname, 'public')));
 
     app.use(express.favicon());
@@ -57,6 +47,12 @@ app.configure(function () {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);
+    // app.use(sassMiddleware({
+    //     src: __dirname + '/public/styles/src/',
+    //     dest: __dirname + '/public/styles/',
+    //     debug: true,
+    //     outputStyle: 'compressed'
+    // }));
 });
 
 app.configure('development', function () {
