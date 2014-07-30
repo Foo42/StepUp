@@ -65,16 +65,14 @@ $(function () {
     app.init();
 
     if ($('#profile__chart').length) {
-    // bar chart data
+        // bar chart data
         var barData = {
-            labels : ["01/08/14","02/08/14","03/08/14","04/08/14","05/08/14","06/08/14","07/08/14","08/08/14","09/08/14","10/08/14","11/08/14","12/08/14","13/08/14","14/08/14"],
-            datasets : [
-                {
-                    fillColor : "#109ad6",
-                    strokeColor : "#109ad6",
-                    data : [456,479,0,569,702,0,456,0,324,569,702,0,10]
-                }
-            ]
+            labels: ["01/08/14", "02/08/14", "03/08/14", "04/08/14", "05/08/14", "06/08/14", "07/08/14", "08/08/14", "09/08/14", "10/08/14", "11/08/14", "12/08/14", "13/08/14", "14/08/14"],
+            datasets: [{
+                fillColor: "#109ad6",
+                strokeColor: "#109ad6",
+                data: [456, 479, 0, 569, 702, 0, 456, 0, 324, 569, 702, 0, 10]
+            }]
         };
         // get bar chart canvas
         var income = document.getElementById("profile__chart").getContext("2d");
@@ -82,14 +80,35 @@ $(function () {
         new Chart(income).Bar(barData);
     }
 
+    var ongoingClimb;
+    $('.js-end').prop('disabled', true);
     $('.js-start').on('click', function (e) {
+        ongoingClimb = {
+            start: {
+                time: new Date().getTime(),
+                floor: 0
+            }
+        };
+        $('.js-end').prop('disabled', false);
         e.preventDefault();
-        alert('start');
     });
 
     $('.js-end').on('click', function (e) {
-         e.preventDefault();
-        alert('end');
+        e.preventDefault();
+        ongoingClimb.end = {
+            time: new Date().getTime(),
+            floor: 11
+        };
+        $.ajax({
+            type: "POST",
+            url: '/activity/stairs',
+            data: ongoingClimb,
+            success: function () {
+                alert('submitted');
+            },
+            dataType: 'json'
+        });
+        $('.js-end').prop('disabled', true);
     });
 
 
