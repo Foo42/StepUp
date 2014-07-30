@@ -16,6 +16,7 @@
     "express3-handlebars": "~0.5.0",
     "less-middleware": "~0.1.14",
     "mongo": "^0.1.0",
+    "mongodb": "^1.4.7",
     "node-sass": "^0.9.3",
     "node-sass-middleware": "^0.3.0",
     "passport": "^0.2.0",
