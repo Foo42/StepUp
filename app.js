@@ -63,8 +63,23 @@ app.configure('development', function () {
  * Route for Index
  */
 
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
+app.get('/login', function (req, res) {
+    res.render('index');
+});
 
 app.get('/', function (req, res) {
+    res.redirect('/dashboard');
+});
+
+app.get('/dashboard', isAuthenticated, function (req, res) {
     res.render('dashboard');
 });
 
@@ -72,21 +87,15 @@ app.get('/leaderboard', function (req, res) {
     res.render('leaderboard');
 });
 
-app.get('/profile', function (req, res) {
+app.get('/profile', isAuthenticated, function (req, res) {
     res.render('profile');
 });
 
-app.get('/scan', function (req, res) {
+app.get('/scan', isAuthenticated, function (req, res) {
     res.render('scan');
 });
 
-app.get('/dashboard', function (req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        res.redirect('/');
-    }
-}, function (req, res) {
+app.get('/dashboard', isAuthenticated, function (req, res) {
     console.log('req.user' + JSON.stringify(req.user));
     res.render('dashboard', {
         user: {
