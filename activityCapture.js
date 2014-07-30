@@ -82,6 +82,67 @@ function calculateStepsClimbed(climbDetails) {
 	return totalSteps;
 }
 
+function storeActivityRecord(db, climbDetails) {
+	console.log('storing climb details to activityRecords');
+	var activityRecord = {
+		type: 'climb',
+		date: new Date(climbDetails.start.time),
+		details: climbDetails
+	}
+
+	var activities = db.collection('activities');
+	activities.insert(activityRecord, function (err, docs) {
+		if (err) {
+			console.error('error saving climb ' + err);
+		}
+
+		activities.count(function (err, count) {
+			console.log("records count = " + count);
+		});
+	});
+}
+
+function storeToUserProfile(db, user, climbDetails) {
+	console.log('storing climb details to user profile');
+	var users = db.collection('users');
+	users.findOne({
+		id: user.id
+	}, function (err, doc) {
+		if (err || !doc) {
+			console.log('no user, creating');
+			var newUserRecord = user;
+			newUserRecord.totals = {
+				stepsAscended: climbDetails.stairsAscended
+			};
+			users.insert(newUserRecord, function (err) {
+				if (err) {
+					console.log('error creating user record ' + err);
+				} else {
+					console.log('user record created')
+				}
+			});
+		} else {
+			console.log('user found, updating');
+			users.update({
+				id: user.id
+			}, {
+				$inc: {
+					quantity: climbDetails.stairsAscended
+				}
+			}, {
+				upsert: false
+			}, function (err) {
+				if (err) {
+					console.log('error updating user record ' + err);
+				} else {
+					console.log('user record updated')
+				}
+			});
+		}
+	});
+};
+
+
 module.exports = function (db) {
 	return {
 		recordStairClimb: function (user, climbDetails) {
@@ -102,24 +163,13 @@ module.exports = function (db) {
 
 			climbDetails.durationInSeconds = ((climbDetails.end.time - climbDetails.start.time) / 1000);
 			climbDetails.stairsAscended = calculateStepsClimbed(climbDetails);
+
+			storeActivityRecord(db, climbDetails);
+			storeToUserProfile(db, user, climbDetails);
+
 			console.log('stairsAscended = ' + climbDetails.stairsAscended);
 
-			var activityRecord = {
-				type: 'climb',
-				date: new Date(climbDetails.start.time),
-				details: climbDetails
-			}
 
-			var activities = db.collection('activities');
-			activities.insert(activityRecord, function (err, docs) {
-				if (err) {
-					console.error('error saving climb ' + err);
-				}
-
-				activities.count(function (err, count) {
-					console.log("records count = " + count);
-				});
-			});
 		}
 	};
 }

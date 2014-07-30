@@ -21,6 +21,7 @@ if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
 		var user = {
 			displayName: username,
 			name: username,
+			id: username,
 			username: username,
 			photos: [{
 				value: 'http://placekitten.com/g/150/150'
