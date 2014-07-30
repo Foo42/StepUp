@@ -84,6 +84,7 @@ app.get('/dashboard', function (req, res, next) {
         user: {
             displayName: req.user.displayName,
             fromReq: JSON.stringify(req.user),
+            photos: JSON.stringify(req.user.photos),
             photo: req.user.photos[0].value
         }
     });
