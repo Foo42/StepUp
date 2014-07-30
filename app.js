@@ -6,6 +6,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
         console.error('failed to connect to db with err ' + err);
         return process.exit(1);
     };
+    console.log('connected to mongo');
 
     if ((process.env.CLEAR_DB || '') === 'true') {
         console.log('going to clear db');
@@ -37,14 +38,14 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
      */
     var app = express();
 
-    app.get('/login', function (req, res) {
-        res.render('login');
-    });
+    // app.get('/login', function (req, res) {
+    //     res.render('login');
+    // });
 
 
-    app.get('/leaderboard', function (req, res) {
-        res.render('leaderboard');
-    });
+    // app.get('/leaderboard', function (req, res) {
+    //     res.render('leaderboard');
+    // });
 
     /*
      * App Configurations
@@ -111,7 +112,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     }
 
     app.get('/login', function (req, res) {
-        res.render('index');
+        res.render('login');
     });
 
     app.get('/', function (req, res) {
