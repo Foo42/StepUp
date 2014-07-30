@@ -7573,7 +7573,8 @@ p {
     padding: 0 12px; }
   .activity-feed__profile .activity-feed__badge {
     float: right;
-    margin: 35px 30px; }
+    margin: 19px 30px;
+    width: 100px; }
 
 .activity-feed__info li {
   list-style-type: none; }
@@ -7768,7 +7769,7 @@ blockquote {
     -webkit-transform: translateY(0);
     transform: translateY(0); }
   .main-nav ul {
-    margin: 4.6em 0 1em 1em;
+    margin: 6.5em 0 1em 1em;
     padding: 0; }
   .main-nav li {
     list-style-type: none;
@@ -7801,7 +7802,7 @@ blockquote {
   z-index: 2;
   float: right;
   text-decoration: none;
-  padding: 20px 21px 43px;
+  padding: 30px 21px 43px;
   color: white;
   cursor: pointer; }
   .nav-toggle span {
@@ -7881,6 +7882,7 @@ video#bgvid {
   background-size: cover; }
 
 .login {
+  width: 530px;
   margin: 170px auto;
   float: none; }
   .login p {
@@ -7888,7 +7890,9 @@ video#bgvid {
     font-size: 22px;
     font-style: italic;
     font-weight: bold;
-    margin: 0; }
+    margin: 0;
+    float: left;
+    padding: 28px 16px; }
   .login label {
     float: left;
     clear: both;
@@ -7899,7 +7903,7 @@ video#bgvid {
     padding: 6px;
     border: 1px solid #bab9c7;
     border-radius: 4px;
-    width: 240px; }
+    width: 200px; }
   .login button {
     width: 100px; }
   .login .control-group {
@@ -7913,24 +7917,27 @@ video#bgvid {
 .login__form {
   zoom: 1;
   background: rgba(255, 255, 255, 0.9);
-  padding: 30px 20px 20px;
+  padding: 30px 20px 15px;
   border-radius: 10px; }
   .login__form:before, .login__form:after {
     content: "";
     display: table; }
   .login__form:after {
     clear: both; }
+  .login__form form {
+    float: left; }
 
 .login__social {
-  margin: 20px 0 0 0;
+  float: left;
+  margin: 0 0 0 0;
   list-style-type: none;
   padding: 0; }
   .login__social li {
-    margin: 15px 85px 0; }
+    margin: 0 0 15px 0; }
     .login__social li:nth-child(2) img {
       opacity: .4; }
   .login__social img {
-    width: 230px; }
+    width: 200px; }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 992px) {

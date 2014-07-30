@@ -137,6 +137,10 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
         res.render('scan');
     });
 
+    app.get('/scan2', isAuthenticated, function (req, res) {
+        res.render('scan2');
+    });
+
     app.post('/activity/stairs', isAuthenticated, function (req, res) {
         activityCapture.recordStairClimb(req.user, req.body);
     });

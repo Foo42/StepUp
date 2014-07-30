@@ -115,7 +115,8 @@ p {
     }
     .activity-feed__badge {
         float: right;
-        margin: 35px 30px;
+        margin: 19px 30px;
+        width: 100px;
     }
 }
 
@@ -355,7 +356,7 @@ blockquote {
     @include background-opacity($purple, 0.9);
     width: 100%;
     ul {
-        margin: 4.6em 0 1em 1em;
+        margin: 6.5em 0 1em 1em;
         padding: 0;
     }
     li {
@@ -396,7 +397,7 @@ blockquote {
     z-index: 2;
     float: right;
     text-decoration: none;
-    padding: 20px 21px 43px;
+    padding: 30px 21px 43px;
     color: $white;
     cursor: pointer;
     span {
@@ -481,7 +482,7 @@ background-size: cover;
 }
 
 .login {
-
+    width: 530px;
     margin: 170px auto;
     float: none;
     p {
@@ -490,6 +491,8 @@ background-size: cover;
         font-style: italic;
         font-weight: bold;
         margin: 0;
+        float: left;
+        padding: 28px 16px;
     }
     label {
         float: left;
@@ -502,7 +505,7 @@ background-size: cover;
         padding: 6px;
         border: 1px solid $mid-grey;
         border-radius: 4px;
-        width: 240px;
+        width: 200px;
     }
     button {
         width: 100px;
@@ -510,6 +513,10 @@ background-size: cover;
     .control-group {
         margin-bottom: 15px;
     }
+}
+
+.scan {
+
 }
 
 .login__header {
@@ -521,17 +528,22 @@ background-size: cover;
 .login__form {
     @include clearfix;
     background: rgba(255,255,255,.9);
-    padding: 30px 20px 20px;
+    padding: 30px 20px 15px;
     border-radius: 10px;
+    form {
+        float: left;
+    }
+
 }
 
 .login__social {
-    margin: 20px 0 0 0;
+    float: left;
+    margin: 0 0 0 0;
     list-style-type: none;
     padding: 0;
     li {
         //float: left;
-        margin: 15px 85px 0;
+        margin: 0 0 15px 0;
         &:nth-child(2) {
             img {
                 opacity: .4;
@@ -539,7 +551,7 @@ background-size: cover;
         }
     }
     img {
-        width: 230px;
+        width: 200px;
     }
 }
 /* Responsive: Portrait tablets and up */
