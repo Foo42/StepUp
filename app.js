@@ -37,6 +37,14 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
      */
     var app = express();
 
+    app.get('/login', function (req, res) {
+        res.render('login');
+    });
+
+
+    app.get('/leaderboard', function (req, res) {
+        res.render('leaderboard');
+    });
 
     /*
      * App Configurations
