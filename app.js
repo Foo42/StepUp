@@ -1,5 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var config = require(process.env.CONFIG_PATH || '/etc/stepup.json');
+var moment = require('moment');
 var mongoConnectionString = 'mongodb://' + config.mongo.username + ':' + config.mongo.password + '@kahana.mongohq.com:10067/stepup';
 MongoClient.connect(mongoConnectionString, function (err, db) {
     if (err) {
@@ -139,11 +140,13 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
                 3: 'images/badges/third.png',
             }
             var climbsViewModel = climbs.map(function (climbRecord) {
+                var formattedDate = moment(new Date(parseInt(climbRecord.details.start.time))).format('h:mm a - dddd Do MMM YYYY');
                 return {
                     trophyImage: trophyImages[position],
                     position: position++,
                     user: climbRecord.details.user,
-                    durationInSeconds: climbRecord.details.durationInSeconds
+                    durationInSeconds: climbRecord.details.durationInSeconds,
+                    whenDone: formattedDate
                 };
             });
 
