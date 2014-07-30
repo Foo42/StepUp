@@ -68,6 +68,7 @@ p {
 
 .activity-feed {
     @include clearfix;
+    margin-bottom: 30px;
     img {
         float: left;
     }
@@ -81,6 +82,10 @@ p {
     }
 }
 
+.most-steps {
+    margin-top: 30px;
+}
+
 .activity-feed__profile {
     @include clearfix;
     padding-bottom: 15px;
@@ -92,6 +97,16 @@ p {
     span {
         @extend .hl;
     }
+    p {
+        font-style: italic;
+        font-weight: bold;
+        float: left;
+        font-size: 19px;
+        margin: 0 13px;
+        // background: $light-blue;
+        // border-radius: 50%;
+        padding: 0 12px;
+    }
     .activity-feed__badge {
         float: right;
         margin: 35px 30px;
@@ -101,7 +116,6 @@ p {
 
 
 .activity-feed__info {
-
     li {
         list-style-type: none;
         &:nth-child(3) {
@@ -111,6 +125,80 @@ p {
         }
     }
 }
+
+.activity-feed {
+    border-bottom: 1px solid #dddddd;
+}
+
+.activity-feed__image {
+    @include border-radius(50%);
+}
+
+.profile__image {
+    @include border-radius(50%);
+}
+
+.profile {
+    @include clearfix;
+    margin-bottom: 30px;
+    img {
+        float: left;
+    }
+    ul {
+        float: left;
+        margin: 23px 0 0 25px;
+        padding: 0;
+    }
+    h3 {
+        margin-bottom: 10px;
+    }
+}
+
+.profile__profile {
+    @include clearfix;
+    padding-bottom: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #dddddd;
+    &:last-child {
+        border: 0;
+    }
+    span {
+        @extend .hl;
+    }
+    p {
+        font-style: italic;
+        font-weight: bold;
+        float: left;
+        font-size: 19px;
+        margin: 0 13px;
+        // background: $light-blue;
+        // border-radius: 50%;
+        padding: 0 12px;
+    }
+    .profile__badge {
+        float: right;
+        margin: 35px 30px;
+    }
+}
+
+.profile__info {
+    li {
+        list-style-type: none;
+        // &:nth-child(3) {
+        //     font-style: italic;
+        //     color: $dark-grey;
+        //     font-size: 14px;
+        // }
+    }
+}
+
+#profile__chart {
+    width: 640px;
+    height: 270px;
+    margin: 20px 0 0 -25px;
+}
+
+
 
 .i-font {
     font-family: 'icomoon';
@@ -124,6 +212,22 @@ p {
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.acheivements {
+    margin-top: 30px;
+    @include clearfix;
+    ul {
+        margin: 0;
+        list-style-type: none;
+        li {
+            float: left;
+            margin-right: 10px;
+        }
+    }
+    img {
+        width: 100px;
+    }
 }
 
 blockquote {
@@ -328,14 +432,6 @@ blockquote {
     z-index: 10;
     background: $white;
     padding: 7px 11px;
-}
-
-.activity-feed {
-    border-bottom: 1px solid #dddddd;
-}
-
-.activity-feed__image {
-    @include border-radius(50%);
 }
 
 /* Responsive: Portrait tablets and up */

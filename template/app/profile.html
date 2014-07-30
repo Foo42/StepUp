@@ -53,43 +53,35 @@
             </section>
             <section class="content">
                 <div class="container">
-                    <section class="activity-feed col-md-8">
-                        <h1>Activity feed</h1>
-                        <div class="activity-feed__profile">
-                            <img src="images/avatars/ben-l.jpg" height="124" width="124" alt="Ben Large" class="activity-feed__image">
-                            <ul class="activity-feed__info">
+                    <section class="profile col-md-8">
+                        <h1>Profile</h1>
+                        <div class="profile__profile">
+                            <img src="images/avatars/ben-l.jpg" height="124" width="124" alt="Ben Large" class="profile__image">
+                            <ul class="profile__info">
                                 <li><h3>Ben Nam</h3></li>
-                                <li>Climbed <span class="hl">123</span> steps</li>
-                                <li>12:30 - Monday 12th July</li>
+                                <li>Climbing stairs since 12th Jan</li>
                             </ul>
                         </div>
-                        <div class="activity-feed__profile">
-                            <img src="http://placehold.it/124x124" alt="..." height="124" width="124" class="activity-feed__image">
-                            <ul class="activity-feed__info">
-                                <li><h3>Phil Speakman</h3></li>
-                                <li>Climbed <span class="hl">4570</span> steps</li>
-                                <li>12:30 - Monday 12th July</li>
+
+                        <!-- bar chart canvas element -->
+                        <canvas id="profile__chart" width="640" height="270"></canvas>
+
+                        <div class="acheivements">
+
+                            <h1>Acheivements</h1>
+
+                            <ul>
+                                <li><img src="images/global/mts-july-cycling-v1.png" alt=""></li>
+                                <li><img src="images/global/strava-races-jul-10k-v2.png" alt=""></li></li>
                             </ul>
-                            <img class="activity-feed__badge" src="images/global/badge-1.png" alt="">
+
                         </div>
-                        <div class="activity-feed__profile">
-                            <img src="http://placehold.it/124x124" alt="..." height="124" width="124" class="activity-feed__image">
-                            <ul class="activity-feed__info">
-                                <li><h3>Damien Dawson</li>
-                                <li>Has a <span>5 day</span> streak!</li>
-                                <li>12:30 - Monday 12th July</li>
-                            </ul>
-                            <img class="activity-feed__badge" src="images/global/badge-2.png" alt="">
-                        </div>
-                        <div class="activity-feed__profile">
-                            <img src="http://placehold.it/124x124" alt="..." height="124" width="124" class="activity-feed__image">
-                            <ul class="activity-feed__info">
-                                <li><h3>Hoy yen</h3></li>
-                                <li>Just got a PB of <span>2m 15s</span>!</li>
-                                <li>12:30 - Monday 12th July</li>
-                            </ul>
-                        </div>
+
+
+
+
                     </section>
+
                     <section class="sidebar col-md-4">
                         <h2>My stats</h2>
                         <h3>Past 7 days</h3>
@@ -166,8 +158,7 @@
         <script src="bower_components/sass-bootstrap/js/tab.js"></script>
         <!-- endbuild -->
 
-
-
+        <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
