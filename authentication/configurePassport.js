@@ -20,6 +20,7 @@ if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
 		console.log('in localStratergy auth verify method with ' + arguments);
 		var user = {
 			displayName: username,
+			name: username,
 			username: username
 		};
 		return done(null, user);

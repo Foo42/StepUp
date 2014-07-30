@@ -59,8 +59,25 @@ app.configure('development', function () {
 /*
  * Route for Index
  */
+
+
 app.get('/', function (req, res) {
     res.render('index');
+});
+
+app.get('/dashboard', function (req, res, next) {
+    if (req.isAuthenticated()) {
+        next()
+    } else {
+        res.redirect('/');
+    }
+}, function (req, res) {
+    console.log('req.user' + JSON.stringify(req.user));
+    res.render('dashboard', {
+        user: {
+            displayName: req.user.name
+        }
+    });
 });
 
 if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
@@ -69,7 +86,7 @@ if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
     });
 
     app.post('/testing/login', passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/dashboard',
         failureRedirect: '/testing/login',
         failureFlash: false
     }));
@@ -77,7 +94,7 @@ if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
     app.get('/auth/twitter', passport.authenticate('twitter'));
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', {
-            successRedirect: '/',
+            successRedirect: '/dashboard',
             failureRedirect: '/login'
         }));
 }
