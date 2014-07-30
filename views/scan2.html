@@ -1,7 +1,68 @@
 <section class="content">
     <div class="container">
-        <div class="scan">
+        <div id="main-body">
+
+            <div class="scanner">
+
+                <h1>Scan</h1>
+
+                <p>Scan the QR to start your timer.</p>
+
+                <table class="tsel" border="0" width="100%">
+                    <tr>
+                        <td valign="top" align="center" width="50%">
+                            <table class="tsel" border="0">
+                                <tr>
+                                    <td><img class="selector" id="webcamimg" src="vid.png" onclick="setwebcam()" align="left" /></td>
+                                    <td><img class="selector" id="qrimg" src="cam.png" onclick="setimg()" align="right"/></td></tr>
+                                    <tr><td colspan="2" align="center">
+                                        <div id="outdiv">
+                                        </div></td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr><td colspan="3" align="center">
+                                <div id="result"></div>
+                            </td>
+                        </tr>
+                    </table>
+
+                 <canvas id="qr-canvas" width="800" height="600"></canvas>
+
+            </div>
+
+
+
+            <div class="results col-md-6">
+                <h1>Results</h1>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>Steps climbed</td>
+                            <td class="js-climbed">54</td>
+                        </tr>
+                        <tr>
+                            <td>Total time</td>
+                            <td class="js-time">-</td>
+                        </tr>
+                        <tr>
+                            <td>Start floor</td>
+                            <td class="js-startFloor">-</td>
+                        </tr>
+                        <tr>
+                            <td>End floor</td>
+                            <td class="js-endFloor">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="/profile" class="btn btn-primary">Go to profile</a>
+
+            </div>
+
 
         </div>
     </div>
 </section>
+
+

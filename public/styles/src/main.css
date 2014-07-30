@@ -7717,6 +7717,9 @@ blockquote {
 .hide-mobile {
   display: none; }
 
+#bgvid {
+  display: none; }
+
 .header {
   position: fixed;
   z-index: 101;
@@ -7735,6 +7738,10 @@ blockquote {
     z-index: 2;
     color: white;
     text-decoration: none; }
+    .header .logo img {
+      width: 161px;
+      height: auto;
+      margin-top: 0px; }
   .header:after {
     content: "";
     background: #4dcdc4;
@@ -7802,7 +7809,7 @@ blockquote {
   z-index: 2;
   float: right;
   text-decoration: none;
-  padding: 30px 21px 43px;
+  padding: 21px 21px 43px;
   color: white;
   cursor: pointer; }
   .nav-toggle span {
@@ -7881,18 +7888,28 @@ video#bgvid {
   background: url(polina.jpg) no-repeat;
   background-size: cover; }
 
+.results {
+  margin: 0 auto;
+  float: none;
+  opacity: 0;
+  -webkit-transition: opacity .8s ease .3s; }
+  .results.active {
+    opacity: 1; }
+
+#result,
+.selector {
+  display: none; }
+
 .login {
-  width: 530px;
-  margin: 170px auto;
+  margin: 90px auto;
   float: none; }
   .login p {
-    text-align: center;
     font-size: 22px;
     font-style: italic;
     font-weight: bold;
     margin: 0;
-    float: left;
-    padding: 28px 16px; }
+    padding: 0 0 13px;
+    clear: both; }
   .login label {
     float: left;
     clear: both;
@@ -7909,10 +7926,15 @@ video#bgvid {
   .login .control-group {
     margin-bottom: 15px; }
 
+#qr-canvas {
+  display: none; }
+
+#v {
+  width: 320px; }
+
 .login__header {
-  color: white;
-  font-size: 35px;
-  text-shadow: 1px 1px 1px #000; }
+  color: black;
+  font-size: 35px; }
 
 .login__form {
   zoom: 1;
@@ -7943,6 +7965,10 @@ video#bgvid {
 @media screen and (min-width: 992px) {
   .header .logo {
     margin-top: 0; }
+    .header .logo img {
+      width: 239px;
+      height: auto;
+      margin-top: 0; }
 
   .container {
     width: 960px; }
@@ -7985,4 +8011,25 @@ video#bgvid {
     float: right;
     margin: .5em 0 0; }
     .footer .social-media li {
-      padding: 0 .5em .5em 0; } }
+      padding: 0 .5em .5em 0; }
+
+  #bgvid {
+    display: block; }
+
+  .login__header {
+    color: white;
+    font-size: 35px;
+    text-shadow: 1px 1px 1px #000; }
+
+  .login {
+    width: 530px;
+    margin: 170px auto;
+    float: none; }
+    .login p {
+      text-align: center;
+      font-size: 22px;
+      font-style: italic;
+      font-weight: bold;
+      margin: 0;
+      float: left;
+      padding: 28px 16px; } }
