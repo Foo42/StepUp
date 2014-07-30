@@ -71,6 +71,15 @@ function isAuthenticated(req, res, next) {
     }
 }
 
+function makeUserStuff(req) {
+    return {
+        displayName: req.user.displayName,
+        fromReq: JSON.stringify(req.user),
+        photos: JSON.stringify(req.user.photos),
+        photo: req.user.photos[0].value
+    };
+}
+
 app.get('/login', function (req, res) {
     res.render('index');
 });
@@ -88,7 +97,9 @@ app.get('/leaderboard', function (req, res) {
 });
 
 app.get('/profile', isAuthenticated, function (req, res) {
-    res.render('profile');
+    res.render('profile', {
+        user: makeUserStuff(req)
+    });
 });
 
 app.get('/scan', isAuthenticated, function (req, res) {
@@ -98,12 +109,7 @@ app.get('/scan', isAuthenticated, function (req, res) {
 app.get('/dashboard', isAuthenticated, function (req, res) {
     console.log('req.user' + JSON.stringify(req.user));
     res.render('dashboard', {
-        user: {
-            displayName: req.user.displayName,
-            fromReq: JSON.stringify(req.user),
-            photos: JSON.stringify(req.user.photos),
-            photo: req.user.photos[0].value
-        }
+        user: makeUserStuff(req)
     });
 });
 
