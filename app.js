@@ -30,6 +30,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
         exphbs = require('express3-handlebars'),
         passport = require('./authentication/configurePassport'),
         activityCapture = require('./activityCapture')(db),
+        activityQuerying = require('./activityQuerying')(db),
         sassMiddleware = require('node-sass-middleware');
 
 
@@ -120,7 +121,17 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     });
 
     app.get('/dashboard', isAuthenticated, function (req, res) {
-        res.render('dashboard');
+        activityQuerying.getFastestClimbs(3, function (err, climbs) {
+            if (err) {
+                return res.send(500);
+            }
+            res.render('dashboard' {
+                leaderboards: {
+                    allTime: climbs
+                }
+            });
+        });
+
     });
 
     app.get('/leaderboard', function (req, res) {
