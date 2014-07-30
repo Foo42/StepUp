@@ -75,7 +75,8 @@ app.get('/dashboard', function (req, res, next) {
     console.log('req.user' + JSON.stringify(req.user));
     res.render('dashboard', {
         user: {
-            displayName: req.user.name
+            displayName: req.user.name,
+            fromReq: JSON.stringify(req.user)
         }
     });
 });
