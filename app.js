@@ -6,8 +6,9 @@ var express = require('express'),
     fs = require('fs'),
     http = require('http'),
     exphbs = require('express3-handlebars'),
-    passport = require('./authentication/configurePassport');
-lessMiddleware = require('less-middleware');
+    passport = require('./authentication/configurePassport'),
+    sassMiddleware = require('node-sass-middleware'),
+    lessMiddleware = require('less-middleware');
 
 
 /*
@@ -36,6 +37,12 @@ app.configure(function () {
         src: __dirname + '/public',
         compress: true,
         sourceMap: true
+    }));
+    app.use(sassMiddleware({
+        src: __dirname + '/public/styles/src',
+        dest: __dirname + '/public/styles/',
+        debug: true,
+        outputStyle: 'compressed'
     }));
     app.use(express.static(path.join(__dirname, 'public')));
 
