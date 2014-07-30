@@ -76,7 +76,8 @@ app.get('/dashboard', function (req, res, next) {
     res.render('dashboard', {
         user: {
             displayName: req.user.displayName,
-            fromReq: JSON.stringify(req.user)
+            fromReq: JSON.stringify(req.user),
+            photo: req.user.photos[0].value
         }
     });
 });

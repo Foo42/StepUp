@@ -21,7 +21,10 @@ if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
 		var user = {
 			displayName: username,
 			name: username,
-			username: username
+			username: username,
+			photos: [{
+				value: 'http://placekitten.com/g/150/150'
+			}]
 		};
 		return done(null, user);
 	}
