@@ -125,7 +125,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
         res.render('dashboard');
     });
 
-    app.get('/leaderboard', function (req, res) {
+    app.get('/leaderboard', isAuthenticated, function (req, res) {
         activityQuerying.getFastestClimbs(3, function (err, climbs) {
             if (err) {
                 return res.send(500);
