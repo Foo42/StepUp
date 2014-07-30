@@ -63,7 +63,7 @@ app.get('/', function (req, res) {
     res.render('index');
 });
 
-if (process.env.OFFLINE_MODE.toLowerCase() === 'true') {
+if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
     app.get('/testing/login', function (req, res) {
         res.render('localAuthLoginForm');
     });
@@ -74,7 +74,12 @@ if (process.env.OFFLINE_MODE.toLowerCase() === 'true') {
         failureFlash: false
     }));
 } else {
-
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+    app.get('/auth/twitter/callback',
+        passport.authenticate('twitter', {
+            successRedirect: '/',
+            failureRedirect: '/login'
+        }));
 }
 
 

@@ -12,7 +12,7 @@ passport.deserializeUser(function (obj, done) {
 	done(null, obj);
 });
 
-if (process.env.OFFLINE_MODE.toLowerCase() === 'true') {
+if ((process.env.OFFLINE_MODE || '').toLowerCase() === 'true') {
 	console.log('Using offline authentication Strategy');
 	var LocalStratergy = require('passport-local').Strategy;
 
