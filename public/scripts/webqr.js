@@ -246,6 +246,7 @@ function setwebcam() {
     if (MediaStreamTrack && MediaStreamTrack.getSources) {
         MediaStreamTrack.getSources(function (sources) {
             var backVideo = sources.filter(function (source) {
+                console.log(source);
                 return source.kind === 'video' && source.facing !== ''
             });
 
@@ -253,11 +254,12 @@ function setwebcam() {
                 video: true,
                 audio: false
             };
-
+            console.log(backVideo);
             if (backVideo.length) {
-                constrains.video = {
-                    sourceId: backVideo[backVideo.length - 1].id
-                };
+                alert(JSON.stringify(backVideo));
+                //constrains.video = {
+                //    sourceId: backVideo[backVideo.length - 1].id
+                //};
             }
 
             if (n.getUserMedia)
