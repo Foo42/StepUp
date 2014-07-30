@@ -1,5 +1,78 @@
-<p class="lead">Hello {{user.displayName}}</p>
-<div>
-	{{user.photos}}
-</div>
-<img src="{{user.photo}}">
+<section class="content">
+    <div class="container">
+        <section class="activity-feed col-md-8">
+            <h1>Activity feed</h1>
+            <div class="activity-feed__profile">
+                <img src="images/avatars/ben-l.jpg" height="124" width="124" alt="Ben Large" class="activity-feed__image">
+                <ul class="activity-feed__info">
+                    <li><h3>Ben Nam</h3></li>
+                    <li>Climbed <span class="hl">123</span> steps</li>
+                    <li>12:30 - Monday 12th July</li>
+                </ul>
+            </div>
+            <div class="activity-feed__profile">
+                <img src="http://placehold.it/124x124" alt="..." height="124" width="124" class="activity-feed__image">
+                <ul class="activity-feed__info">
+                    <li><h3>Phil Speakman</h3></li>
+                    <li>Climbed <span class="hl">4570</span> steps</li>
+                    <li>12:30 - Monday 12th July</li>
+                </ul>
+                <img class="activity-feed__badge" src="images/global/badge-1.png" alt="">
+            </div>
+            <div class="activity-feed__profile">
+                <img src="http://placehold.it/124x124" alt="..." height="124" width="124" class="activity-feed__image">
+                <ul class="activity-feed__info">
+                    <li><h3>Damien Dawson</li>
+                    <li>Has a <span>5 day</span> streak!</li>
+                    <li>12:30 - Monday 12th July</li>
+                </ul>
+                <img class="activity-feed__badge" src="images/global/badge-2.png" alt="">
+            </div>
+            <div class="activity-feed__profile">
+                <img src="http://placehold.it/124x124" alt="..." height="124" width="124" class="activity-feed__image">
+                <ul class="activity-feed__info">
+                    <li><h3>Hoy yen</h3></li>
+                    <li>Just got a PB of <span>2m 15s</span>!</li>
+                    <li>12:30 - Monday 12th July</li>
+                </ul>
+            </div>
+        </section>
+        <section class="sidebar col-md-4">
+            <h2>My stats</h2>
+            <h3>Past 7 days</h3>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Fastest time</td>
+                        <td>2m 32s</td>
+                    </tr>
+                    <tr>
+                        <td>Stairs climbed</td>
+                        <td>455</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>All time</h3>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Fastest time</td>
+                        <td>2m 32s</td>
+                    </tr>
+                    <tr>
+                        <td>Stairs climbed</td>
+                        <td>455</td>
+                    </tr>
+                    <tr>
+                        <td>Total time</td>
+                        <td>10m 43s</td>
+                    </tr>
+                    <tr>
+                        <td>Total steps</td>
+                        <td>2334</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</section>

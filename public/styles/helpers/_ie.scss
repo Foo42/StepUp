@@ -1,0 +1,28 @@
+.lt-ie9 {
+    .nav-toggle {
+        span {
+            right: 5px;
+        }
+        .nav-open {
+            top: 21px;
+        }
+        .nav-close {
+            top: -1000px;
+        }
+        &.active {
+            .nav-open { top: -1000px; }
+            .nav-close { top: 21px; }
+        }
+    }
+    .main-nav {
+        top: -1000px;
+        &.active {
+            top: 40px;
+        }
+    }
+    .footer {
+        .social-media {
+            float: right;
+        }
+    }
+}
