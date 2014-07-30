@@ -65,12 +65,24 @@ app.configure('development', function () {
 
 
 app.get('/', function (req, res) {
-    res.render('index');
+    res.render('dashboard');
+});
+
+app.get('/leaderboard', function (req, res) {
+    res.render('leaderboard');
+});
+
+app.get('/profile', function (req, res) {
+    res.render('profile');
+});
+
+app.get('/scan', function (req, res) {
+    res.render('scan');
 });
 
 app.get('/dashboard', function (req, res, next) {
     if (req.isAuthenticated()) {
-        next()
+        next();
     } else {
         res.redirect('/');
     }
