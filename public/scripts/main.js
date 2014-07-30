@@ -75,11 +75,22 @@ $(function () {
                     data : [456,479,0,569,702,0,456,0,324,569,702,0,10]
                 }
             ]
-        }
+        };
         // get bar chart canvas
         var income = document.getElementById("profile__chart").getContext("2d");
         // draw bar chart
         new Chart(income).Bar(barData);
     }
+
+    $('.js-start').on('click', function (e) {
+        e.preventDefault();
+        alert('start');
+    });
+
+    $('.js-end').on('click', function (e) {
+         e.preventDefault();
+        alert('end');
+    });
+
 
 });

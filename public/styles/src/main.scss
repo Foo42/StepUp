@@ -434,6 +434,18 @@ blockquote {
     padding: 7px 11px;
 }
 
+.scan-demo {
+    list-style-type: none;
+    float: left;
+    li {
+        float: left;
+        margin-right: 10px
+    }
+    a {
+        width: 110px;
+    }
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 992px) {
 
