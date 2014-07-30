@@ -256,7 +256,7 @@ function setwebcam() {
 
             if (backVideo.length) {
                 constrains.video = {
-                    sourceId: backVideo[backVideo.length - 1]
+                    sourceId: backVideo[backVideo.length - 1].id
                 };
             }
 
