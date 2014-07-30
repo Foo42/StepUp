@@ -247,7 +247,7 @@ function setwebcam() {
         MediaStreamTrack.getSources(function (sources) {
             var backVideo = sources.filter(function (source) {
                 console.log(source);
-                return source.kind === 'video' && source.facing !== ''
+                return source.kind === 'video' && source.facing === 'environment'
             });
 
             var constrains = {
@@ -255,11 +255,11 @@ function setwebcam() {
                 audio: false
             };
             console.log(backVideo);
-            if (backVideo.length) {
+            if (backVideo.length && /.*backcamera.*/.test(window.location.hash)) {
                 alert(JSON.stringify(backVideo));
-                //constrains.video = {
-                //    sourceId: backVideo[backVideo.length - 1].id
-                //};
+                constrains.video = {
+                    sourceId: backVideo[0].id
+                };
             }
 
             if (n.getUserMedia)
