@@ -505,8 +505,8 @@ background-size: cover;
     display: none;
 }
 .login {
+    margin: 90px auto;
 
-    margin: 170px auto;
     float: none;
     p {
         font-size: 22px;
@@ -546,9 +546,8 @@ background-size: cover;
 }
 
 .login__header {
-    color: white;
+    color: black;
     font-size: 35px;
-    text-shadow: 1px 1px 1px #000;
 }
 
 .login__form {
@@ -657,6 +656,11 @@ background-size: cover;
         display: block;
     }
 
+    .login__header {
+        color: white;
+        font-size: 35px;
+        text-shadow: 1px 1px 1px #000;
+    }
 
     .login {
         width: 530px;
