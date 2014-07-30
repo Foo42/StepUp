@@ -168,10 +168,6 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     });
 
     app.get('/scan', isAuthenticated, function (req, res) {
-        res.render('scan');
-    });
-
-    app.get('/scan2', isAuthenticated, function (req, res) {
         res.render('scan2');
     });
 

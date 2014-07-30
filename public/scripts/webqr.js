@@ -48,7 +48,7 @@ function drop(e) {
 function handleFiles(f)
 {
 	var o=[];
-	
+
 	for(var i =0;i<f.length;i++)
 	{
         var reader = new FileReader();
@@ -59,7 +59,7 @@ function handleFiles(f)
 			qrcode.decode(e.target.result);
         };
         })(f[i]);
-        reader.readAsDataURL(f[i]);	
+        reader.readAsDataURL(f[i]);
     }
 }
 
@@ -85,12 +85,12 @@ function captureToCanvas() {
             try{
                 qrcode.decode();
             }
-            catch(e){       
+            catch(e){
                 console.log(e);
                 setTimeout(captureToCanvas, 500);
             };
         }
-        catch(e){       
+        catch(e){
                 console.log(e);
                 setTimeout(captureToCanvas, 500);
         };
@@ -101,14 +101,100 @@ function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function read(a)
+function shouldStop(newFloorNumber){
+    var storedStart = sessionStorage.getItem('stairTimingStart');
+    if(!storedStart){
+        return false;
+    }
+
+    storedStart = JSON.parse(storedStart);
+    var tooLong = (new Date().getTime() - storedStart.time) > (20 * 60 * 1000);
+    if(tooLong){
+        return false;
+    }
+
+    if(storedStart.floor === newFloorNumber){
+        return false;
+    }
+
+    return true;
+}
+
+function startTiming(floor){
+    var start = {time:new Date().getTime(), floor:floor};
+    sessionStorage.setItem('stairTimingStart', JSON.stringify(start));
+}
+
+function stopTiming(floor){
+    var storedStart = sessionStorage.getItem('stairTimingStart');
+    if(!storedStart){
+        throw new Error('not started yet');
+    }
+    var end = {time:new Date().getTime(), floor:floor};
+    sessionStorage.removeItem('stairTimingStart');
+    return {start:JSON.parse(storedStart), end:end};
+}
+
+function submitTiming(climbDetails){
+    console.log('submitting timing');
+    console.log(climbDetails);
+    $.ajax({
+            type: "POST",
+            url: '/activity/stairs',
+            data: climbDetails,
+            success: function () {
+                alert('submitted');
+            },
+            dataType: 'json'
+        });
+}
+
+if(window.location.hash.length > 0){
+    read(window.location);
+}
+
+function read(qrCodeText)
 {
-    var html="<br>";
-    if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
-        html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";
-    html+="<b>"+htmlEntities(a)+"</b><br><br>";
-    document.getElementById("result").innerHTML=html;
-}	
+    var floorNumber = qrCodeText.split('#')[1];
+    console.log('fn' + floorNumber)
+    if(shouldStop(floorNumber)){
+        console.log('stopping...');
+        var climbDetails = stopTiming(floorNumber);
+        submitTiming(climbDetails);
+        alert('stopped and submitted');
+
+        var duration = (climbDetails.end.time - climbDetails.start.time)/1000 + ' seconds';
+        var startFloor = climbDetails.start.floor;
+        var endFloor = climbDetails.end.floor;
+
+        renderResults(duration, startFloor, endFloor);
+    } else {
+        console.log('starting...');
+        startTiming(floorNumber);
+        alert('started');
+    }
+    alert(a);
+    // var html="<br>";
+    // if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
+    //     html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";
+    // html+="<b>"+htmlEntities(a)+"</b><br><br>";
+    // document.getElementById("result").innerHTML=html;
+    // startCapture(htmlEntities(a));
+    // //startCapture(a);
+}
+
+function renderResults (time, startFloor, endFloor) {
+    $('.scanner').hide();
+    $('.results').addClass('active');
+    $('.js-time').text(time);
+    $('.js-startFloor').text(startFloor);
+    $('.js-endFloor').text(endFloor);
+}
+
+function startCapture (a) {
+
+    // window.location = a;
+}
 
 function isCanvasSupported(){
   var elem = document.createElement('canvas');
@@ -128,7 +214,7 @@ function success(stream) {
     gUM=true;
     setTimeout(captureToCanvas, 500);
 }
-		
+
 function error(error) {
     gUM=false;
     return;
@@ -140,13 +226,13 @@ function load()
 	{
 		initCanvas(800, 600);
 		qrcode.callback = read;
-		document.getElementById("mainbody").style.display="inline";
+		document.getElementById("main-body").style.display="inline";
         setwebcam();
 	}
 	else
 	{
-		document.getElementById("mainbody").style.display="inline";
-		document.getElementById("mainbody").innerHTML='<p id="mp1">QR code scanner for HTML5 capable browsers</p><br>'+
+		document.getElementById("main-body").style.display="inline";
+		document.getElementById("main-body").innerHTML='<p id="mp1">QR code scanner for HTML5 capable browsers</p><br>'+
         '<br><p id="mp2">sorry your browser is not supported</p><br><br>'+
         '<p id="mp1">try <a href="http://www.mozilla.com/firefox"><img src="firefox.png"/></a> or <a href="http://chrome.google.com"><img src="chrome_logo.gif"/></a> or <a href="http://www.opera.com"><img src="Opera-logo.png"/></a></p>';
 	}
@@ -157,7 +243,7 @@ function setwebcam()
 	document.getElementById("result").innerHTML="- scanning -";
     if(stype==1)
     {
-        setTimeout(captureToCanvas, 500);    
+        setTimeout(captureToCanvas, 500);
         return;
     }
     var n=navigator;
@@ -198,8 +284,8 @@ function setimg()
     document.getElementById("qrimg").style.opacity=1.0;
     document.getElementById("webcamimg").style.opacity=0.2;
     var qrfile = document.getElementById("qrfile");
-    qrfile.addEventListener("dragenter", dragenter, false);  
-    qrfile.addEventListener("dragover", dragover, false);  
+    qrfile.addEventListener("dragenter", dragenter, false);
+    qrfile.addEventListener("dragover", dragover, false);
     qrfile.addEventListener("drop", drop, false);
     stype=2;
 }

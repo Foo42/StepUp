@@ -3,6 +3,8 @@ var app = (function () {
 
     var touchEvent;
 
+
+
     var touchEvents = function () {
         if (Modernizr.touch) {
             touchEvent = 'touchstart';
@@ -63,6 +65,12 @@ $(function () {
 
     'use strict';
     app.init();
+
+    if ($('#qr-canvas').length) {
+        load();
+    }
+
+    //load();
 
     if ($('#profile__chart').length) {
         // bar chart data

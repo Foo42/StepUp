@@ -296,6 +296,10 @@ blockquote {
     display: none;
 }
 
+#bgvid, {
+    display: none;
+}
+
 .header {
     position: fixed;
     z-index: 101;
@@ -315,6 +319,11 @@ blockquote {
         z-index: 2;
         color: $white;
         text-decoration: none;
+        img {
+            width: 161px;
+            height: auto;
+            margin-top: 0px;
+        }
 
     }
     &:after {
@@ -397,7 +406,7 @@ blockquote {
     z-index: 2;
     float: right;
     text-decoration: none;
-    padding: 30px 21px 43px;
+    padding: 21px 21px 43px;
     color: $white;
     cursor: pointer;
     span {
@@ -481,18 +490,31 @@ background: url(polina.jpg) no-repeat;
 background-size: cover;
 }
 
+.results {
+    margin: 0 auto;
+    float: none;
+    opacity: 0;
+    -webkit-transition: opacity .8s ease .3s;
+    &.active {
+        opacity: 1;
+    }
+}
+
+#result,
+.selector {
+    display: none;
+}
 .login {
-    width: 530px;
+
     margin: 170px auto;
     float: none;
     p {
-        text-align: center;
         font-size: 22px;
         font-style: italic;
         font-weight: bold;
         margin: 0;
-        float: left;
-        padding: 28px 16px;
+        padding: 0 0 13px;
+        clear: both;
     }
     label {
         float: left;
@@ -515,8 +537,12 @@ background-size: cover;
     }
 }
 
-.scan {
+#qr-canvas{
+    display:none;
+}
 
+#v {
+    width: 320px;
 }
 
 .login__header {
@@ -560,10 +586,13 @@ background-size: cover;
     .header {
         .logo {
             margin-top: 0;
+            img {
+                width: 239px;
+                height: auto;
+                margin-top: 0;
+            }
         }
     }
-
-
 
 
     .container {
@@ -623,5 +652,40 @@ background-size: cover;
             }
         }
     }
+
+    #bgvid {
+        display: block;
+    }
+
+
+    .login {
+        width: 530px;
+        margin: 170px auto;
+        float: none;
+        p {
+            text-align: center;
+            font-size: 22px;
+            font-style: italic;
+            font-weight: bold;
+            margin: 0;
+            float: left;
+            padding: 28px 16px;
+        }
+    }
+
+
+
+    // .header {
+
+    //     .logo {
+
+    //         img {
+    //             width: 239px;
+    //         }
+
+    //     }
+
+    // }
+
 
 }
