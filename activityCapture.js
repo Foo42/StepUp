@@ -141,7 +141,8 @@ function storeToUserProfile(db, user, climbDetails) {
 			newUserRecord.totals = {
 				stepsAscended: climbDetails.stepsAscended,
 				caloriesUsed: climbDetails.caloriesUsed,
-				metresAscended: climbDetails.metresAscended
+				metresAscended: climbDetails.metresAscended,
+				time: climbDetails.durationInSeconds
 			};
 			users.insert(newUserRecord, function (err) {
 				if (err) {
@@ -158,7 +159,11 @@ function storeToUserProfile(db, user, climbDetails) {
 				$inc: {
 					'totals.stepsAscended': climbDetails.stepsAscended,
 					'totals.caloriesUsed': climbDetails.caloriesUsed,
-					'totals.metresAscended': climbDetails.metresAscended
+					'totals.metresAscended': climbDetails.metresAscended,
+					'totals.time': climbDetails.durationInSeconds
+				},
+				$min: {
+					'bestTime': climbDetails.durationInSeconds
 				}
 			}, {
 				upsert: false
