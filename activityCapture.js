@@ -84,10 +84,23 @@ function calculateStepsClimbed(climbDetails) {
 
 function storeActivityRecord(db, climbDetails) {
 	console.log('storing climb details to activityRecords');
+
+	var userPicture;
+	try {
+		userPicture = user.photos[0].value;
+	} catch (e) {
+
+	}
+
 	var activityRecord = {
 		type: 'climb',
 		date: new Date(climbDetails.start.time),
 		details: climbDetails
+		user: {
+			id: user.id,
+			name: user.displayName,
+			picture: userPicture
+		}
 	}
 
 	var activities = db.collection('activities');
@@ -143,33 +156,24 @@ function storeToUserProfile(db, user, climbDetails) {
 };
 
 
+function augmentClimbDetails(climbDetails) {
+
+
+	climbDetails.durationInSeconds = ((climbDetails.end.time - climbDetails.start.time) / 1000);
+	climbDetails.stairsAscended = calculateStepsClimbed(climbDetails);
+}
+
 module.exports = function (db) {
 	return {
 		recordStairClimb: function (user, climbDetails) {
 			console.log('recording stair climb');
 			console.log(climbDetails);
-			var userPicture;
-			try {
-				userPicture = user.photos[0].value;
-			} catch (e) {
 
-			}
-
-			climbDetails.user = {
-				id: user.id,
-				name: user.displayName,
-				picture: userPicture
-			};
-
-			climbDetails.durationInSeconds = ((climbDetails.end.time - climbDetails.start.time) / 1000);
-			climbDetails.stairsAscended = calculateStepsClimbed(climbDetails);
-
+			augmentClimbDetails(climbDetails);
 			storeActivityRecord(db, climbDetails);
 			storeToUserProfile(db, user, climbDetails);
 
 			console.log('stairsAscended = ' + climbDetails.stairsAscended);
-
-
 		}
 	};
 }

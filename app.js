@@ -144,7 +144,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
                 return {
                     trophyImage: trophyImages[position],
                     position: position++,
-                    user: climbRecord.details.user,
+                    user: climbRecord.user,
                     durationInSeconds: climbRecord.details.durationInSeconds,
                     whenDone: formattedDate
                 };
