@@ -91,7 +91,7 @@ function calculateClimbInfo(climbDetails) {
 		stairs: totalStairs,
 		calories: totalCalories,
 		flights: totalFlights,
-		metres: stepHeight * totalStairs;
+		metres: stepHeight * totalStairs
 	};
 }
 
@@ -156,9 +156,9 @@ function storeToUserProfile(db, user, climbDetails) {
 				id: user.id
 			}, {
 				$inc: {
-					totals.stepsAscended: climbDetails.stepsAscended,
-					totals.caloriesUsed: climbDetails.caloriesUsed,
-					totals.metresAscended: climbDetails.metresAscended
+					'totals.stepsAscended': climbDetails.stepsAscended,
+					'totals.caloriesUsed': climbDetails.caloriesUsed,
+					'totals.metresAscended': climbDetails.metresAscended
 				}
 			}, {
 				upsert: false
