@@ -173,7 +173,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
                         trophyImage: trophyImages[position],
                         position: position++,
                         user: {
-                            name: user.name,
+                            name: user.displayName,
                             picture: userPicture
                         },
                         stairs: user.totals.stepsAscended,

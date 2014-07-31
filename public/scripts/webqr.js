@@ -146,6 +146,9 @@ function submitTiming(climbDetails) {
         success: function () {
             alert('submitted');
         },
+        error: function () {
+            setTimeout(submitTiming.bind(climbDetails), 3000);
+        },
         dataType: 'json'
     });
 }
