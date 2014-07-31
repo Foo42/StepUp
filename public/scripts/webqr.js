@@ -154,7 +154,14 @@ if (window.location.hash.length > 0) {
     read(window.location);
 }
 
+var timeOfLastRead;
+
 function read(qrCodeText) {
+    if (!timeOfLastRead || ((new Date().getTime() - timeOfLastRead) < 3000)) {
+        return; //too soon
+    }
+    timeOfLastRead = new Date().getTime();
+
     var floorNumber = qrCodeText.split('#')[1];
     console.log('fn' + floorNumber)
     if (shouldStop(floorNumber)) {

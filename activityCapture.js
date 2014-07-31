@@ -190,7 +190,7 @@ module.exports = function (db) {
 			console.log(climbDetails);
 
 			augmentClimbDetails(climbDetails);
-			storeActivityRecord(db, users, climbDetails);
+			storeActivityRecord(db, user, climbDetails);
 			storeToUserProfile(db, user, climbDetails);
 
 			console.log('stairsAscended = ' + climbDetails.stairsAscended);
