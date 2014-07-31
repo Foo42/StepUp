@@ -135,7 +135,8 @@ function storeToUserProfile(db, user, climbDetails) {
 			var newUserRecord = user;
 			newUserRecord.dateStartedClimbing = new Date();
 			newUserRecord.totals = {
-				stepsAscended: climbDetails.stairsAscended
+				stepsAscended: climbDetails.stepsAscended,
+				caloriesUsed: climbDetails.caloriesUsed
 			};
 			users.insert(newUserRecord, function (err) {
 				if (err) {
@@ -150,7 +151,8 @@ function storeToUserProfile(db, user, climbDetails) {
 				id: user.id
 			}, {
 				$inc: {
-					quantity: climbDetails.stairsAscended
+					totals.stepsAscended: climbDetails.stepsAscended,
+					totals.caloriesUsed: climbDetails.caloriesUsed
 				}
 			}, {
 				upsert: false
@@ -169,7 +171,7 @@ function storeToUserProfile(db, user, climbDetails) {
 function augmentClimbDetails(climbDetails) {
 	climbDetails.durationInSeconds = ((climbDetails.end.time - climbDetails.start.time) / 1000);
 	var climbInfo = calculateClimbInfo(climbDetails);
-	climbDetails.stairsAscended = climbInfo.stairs;
+	climbDetails.stepsAscended = climbInfo.stairs;
 	climbDetails.caloriesUsed = climbInfo.calories;
 	climbDetails.flightsAscended = climbDetails.flights;
 }
