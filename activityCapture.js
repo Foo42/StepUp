@@ -133,6 +133,7 @@ function storeToUserProfile(db, user, climbDetails) {
 		if (err || !doc) {
 			console.log('no user, creating');
 			var newUserRecord = user;
+			newUserRecord.dateStartedClimbing = new Date();
 			newUserRecord.totals = {
 				stepsAscended: climbDetails.stairsAscended
 			};
