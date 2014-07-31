@@ -95,7 +95,7 @@ function calculateClimbInfo(climbDetails) {
 	};
 }
 
-function storeActivityRecord(db, climbDetails) {
+function storeActivityRecord(db, user, climbDetails) {
 	console.log('storing climb details to activityRecords');
 
 	var userPicture;
@@ -190,7 +190,7 @@ module.exports = function (db) {
 			console.log(climbDetails);
 
 			augmentClimbDetails(climbDetails);
-			storeActivityRecord(db, climbDetails);
+			storeActivityRecord(db, users, climbDetails);
 			storeToUserProfile(db, user, climbDetails);
 
 			console.log('stairsAscended = ' + climbDetails.stairsAscended);
