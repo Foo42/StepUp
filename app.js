@@ -17,7 +17,11 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
                 console.log('failed to clear db with err' + err);
                 return;
             }
-            console.log('cleared db')
+            console.log('cleared activities');
+            db.collection('users').remove({}, function (err) {
+                console.log('cleared users');
+                console.log('cleared db')
+            });
         });
     }
 
