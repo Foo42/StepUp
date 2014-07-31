@@ -127,9 +127,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
         res.redirect('/dashboard');
     });
 
-    app.get('/dashboard', isAuthenticated, function (req, res) {
-        res.render('dashboard');
-    });
+
 
     app.get('/leaderboard', isAuthenticated, function (req, res) {
         async.parallel({
@@ -234,11 +232,12 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
             if (err) {
                 return res.send(err);
             }
-            res.render('dashboard', {
-                userProfile: makeUserStuff(req),
-                profile: results.profile,
+            var vm = {
+                userProfile: results.profile,
                 sevenDayStats: results.sevenDayStats
-            });
+            }
+            console.log('dashboard vm ' + JSON.stringify(vm));
+            res.render('dashboard', vm);
         });
     });
 

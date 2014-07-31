@@ -2,13 +2,10 @@ var passport = require('passport');
 module.exports = passport;
 
 passport.serializeUser(function (user, done) {
-	console.log('in serializeUser. user = ' + JSON.stringify(user));
 	done(null, user);
 });
 
 passport.deserializeUser(function (obj, done) {
-	//attach context engine here?
-	console.log("deserializeUser: " + JSON.stringify(obj));
 	done(null, obj);
 });
 
