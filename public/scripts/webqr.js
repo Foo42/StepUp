@@ -157,13 +157,13 @@ if (window.location.hash.length > 0) {
 var timeOfLastRead;
 
 function read(qrCodeText) {
-    if (!timeOfLastRead) {
-        timeOfLastRead = new Date().getTime();
-    }
-    if (!timeOfLastRead || ((new Date().getTime() - timeOfLastRead) < 3000)) {
-        return; //too soon
-    }
-    timeOfLastRead = new Date().getTime();
+    // if (!timeOfLastRead) {
+    //     timeOfLastRead = new Date().getTime();
+    // }
+    // if (((new Date().getTime() - timeOfLastRead) < 3000)) {
+    //     return; //too soon
+    // }
+    // timeOfLastRead = new Date().getTime();
 
     var floorNumber = qrCodeText.split('#')[1];
     console.log('fn' + floorNumber)
