@@ -157,6 +157,9 @@ if (window.location.hash.length > 0) {
 var timeOfLastRead;
 
 function read(qrCodeText) {
+    if (!timeOfLastRead) {
+        timeOfLastRead = new Date().getTime();
+    }
     if (!timeOfLastRead || ((new Date().getTime() - timeOfLastRead) < 3000)) {
         return; //too soon
     }
