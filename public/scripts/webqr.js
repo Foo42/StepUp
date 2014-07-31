@@ -120,6 +120,10 @@ function startTiming(floor) {
     sessionStorage.setItem('stairTimingStart', JSON.stringify(start));
 }
 
+function showLast() {
+    alert(sessionStorage.getItem(lastCompleteRun));
+}
+
 function stopTiming(floor) {
     var storedStart = sessionStorage.getItem('stairTimingStart');
     if (!storedStart) {
@@ -130,10 +134,12 @@ function stopTiming(floor) {
         floor: floor
     };
     sessionStorage.removeItem('stairTimingStart');
-    return {
+    var complete = {
         start: JSON.parse(storedStart),
         end: end
     };
+    sessionStorage.setItem('lastCompleteRun', JSON.stringify(complete));
+    return complete;
 }
 
 function submitTiming(climbDetails) {
