@@ -215,6 +215,7 @@ function success(stream) {
 }
 
 function error(error) {
+    alert(error);
     gUM = false;
     return;
 }
