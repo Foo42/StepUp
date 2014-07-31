@@ -73,21 +73,25 @@ function calculateClimbInfo(climbDetails) {
 		return 0;
 	}
 
-	var totalSteps = 0;
+	var totalStairs = 0;
 	var totalCalories = 0;
 	var totalFlights = 0;
 	for (var floor = endFloor; floor != startFloor; --floor) {
 		//console.log('looping. floor = ' + floor);
 		var flight = stairsByFloor[floor + ''];
-		totalSteps += flight.steps;
+		totalStairs += flight.steps;
 		totalCalories += flight.calories;
 		totalFlights++
 	}
 
+
+	var stepHeight = 4 / 22; //massive guess!! 4 metres per floor with 22 steps????
+
 	return {
-		stairs: totalSteps,
+		stairs: totalStairs,
 		calories: totalCalories,
-		flights: totalFlights
+		flights: totalFlights,
+		metres: stepHeight * totalStairs;
 	};
 }
 
@@ -136,7 +140,8 @@ function storeToUserProfile(db, user, climbDetails) {
 			newUserRecord.dateStartedClimbing = new Date();
 			newUserRecord.totals = {
 				stepsAscended: climbDetails.stepsAscended,
-				caloriesUsed: climbDetails.caloriesUsed
+				caloriesUsed: climbDetails.caloriesUsed,
+				metresAscended: climbDetails.metresAscended
 			};
 			users.insert(newUserRecord, function (err) {
 				if (err) {
@@ -152,7 +157,8 @@ function storeToUserProfile(db, user, climbDetails) {
 			}, {
 				$inc: {
 					totals.stepsAscended: climbDetails.stepsAscended,
-					totals.caloriesUsed: climbDetails.caloriesUsed
+					totals.caloriesUsed: climbDetails.caloriesUsed,
+					totals.metresAscended: climbDetails.metresAscended
 				}
 			}, {
 				upsert: false
@@ -173,7 +179,8 @@ function augmentClimbDetails(climbDetails) {
 	var climbInfo = calculateClimbInfo(climbDetails);
 	climbDetails.stepsAscended = climbInfo.stairs;
 	climbDetails.caloriesUsed = climbInfo.calories;
-	climbDetails.flightsAscended = climbDetails.flights;
+	climbDetails.flightsAscended = climbInfo.flights;
+	climbDetails.metresAscended = climbInfo.metres;
 }
 
 module.exports = function (db) {
