@@ -227,9 +227,18 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     });
 
     app.get('/dashboard', isAuthenticated, function (req, res) {
-        console.log('req.user' + JSON.stringify(req.user));
-        res.render('dashboard', {
-            user: makeUserStuff(req)
+        async.parallel({
+            profile: profileAccess.getProfileForUser.bind(profileAccess, req.user),
+            sevenDayStats: profileAccess.getStatsForPeriod.bind(profileAccess, req.user, 7)
+        }, function (err, results) {
+            if (err) {
+                return res.send(err);
+            }
+            res.render('dashboard', {
+                user: makeUserStuff(req),
+                profile: results.profile,
+                sevenDayStats: results.sevenDayStats
+            });
         });
     });
 
