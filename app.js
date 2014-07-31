@@ -133,9 +133,10 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
 
     app.get('/leaderboard', isAuthenticated, function (req, res) {
         async.parallel({
-            fastest: activityQuerying.getFastestClimbs.bind(activityQuerying, 3),
-            highest: activityQuerying.getHighestClimbers.bind(activityQuerying, 3),
-            userProfile: profileAccess.getProfileForUser.bind(profileAccess, req.user)
+            fastest: activityQuerying.getFastestClimbs.bind(activityQuerying, 3, -1),
+            highest: activityQuerying.getHighestClimbers.bind(activityQuerying, 3, -1),
+            userProfile: profileAccess.getProfileForUser.bind(profileAccess, req.user),
+            sevenDayStats: profileAccess.getStatsForPeriod.bind(profileAccess, req.user, 7)
         }, function (err, results) {
             if (err) {
                 return res.send(500);
@@ -190,7 +191,8 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
                     allTimeFastest: fastestViewModel,
                     allTimeHighest: highestViewModel
                 },
-                userProfile: results.userProfile
+                userProfile: results.userProfile,
+                sevenDayStats: results.sevenDayStats
             };
 
             console.log('viewmodel = ' + JSON.stringify(viewModel));
