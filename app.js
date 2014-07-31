@@ -200,9 +200,13 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     });
 
     app.get('/profile', isAuthenticated, function (req, res) {
-        res.render('profile', {
-            user: makeUserStuff(req)
+        profileAccess.getProfileForUser(req.user, function (err, profile) {
+            res.render('profile', {
+                user: makeUserStuff(req),
+                profile: profile
+            });
         });
+
     });
 
     app.get('/scan', isAuthenticated, function (req, res) {

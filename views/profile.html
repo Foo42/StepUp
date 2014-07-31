@@ -6,7 +6,7 @@
                 <img src="{{{user.photo}}}" height="124" width="124" alt="Ben Large" class="profile__image">
                 <ul class="profile__info">
                     <li><h3>{{user.displayName}}</h3></li>
-                    <li>Climbing stairs since <span class="hl">12th Jan</span></li>
+                    <li>Climbing stairs since <span class="hl">{{profile.dateStartedClimbing}}</span></li>
                 </ul>
             </div>
             <canvas id="profile__chart" width="640" height="270"></canvas>
@@ -43,16 +43,12 @@
                         <td>2m 32s</td>
                     </tr>
                     <tr>
-                        <td>Stairs climbed</td>
-                        <td>455</td>
+                        <td>Total steps climbed</td>
+                        <td>{{profile.totals.stepsAscended}}</td>
                     </tr>
                     <tr>
                         <td>Total time</td>
                         <td>10m 43s</td>
-                    </tr>
-                    <tr>
-                        <td>Total steps</td>
-                        <td>2334</td>
                     </tr>
                 </tbody>
             </table>
