@@ -235,7 +235,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
                 return res.send(err);
             }
             res.render('dashboard', {
-                user: makeUserStuff(req),
+                userProfile: makeUserStuff(req),
                 profile: results.profile,
                 sevenDayStats: results.sevenDayStats
             });
