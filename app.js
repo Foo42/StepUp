@@ -37,6 +37,7 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
         passport = require('./authentication/configurePassport'),
         activityCapture = require('./activityCapture')(db),
         activityQuerying = require('./activityQuerying')(db),
+        profileAccess = require('./profileAccess')(db),
         sassMiddleware = require('node-sass-middleware');
 
 
@@ -133,7 +134,8 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     app.get('/leaderboard', isAuthenticated, function (req, res) {
         async.parallel({
             fastest: activityQuerying.getFastestClimbs.bind(activityQuerying, 3),
-            highest: activityQuerying.getHighestClimbers.bind(activityQuerying, 3)
+            highest: activityQuerying.getHighestClimbers.bind(activityQuerying, 3),
+            userProfile: profileAccess.getProfileForUser.bind(profileAccess, req.user)
         }, function (err, results) {
             if (err) {
                 return res.send(500);
@@ -181,11 +183,13 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
             })();
 
             console.log('highest vm: ' + JSON.stringify(highestViewModel));
+            console.log('user profile ' + JSON.stringify(results.userProfile));
 
             var viewModel = {
                 leaderboards: {
                     allTimeFastest: fastestViewModel,
-                    allTimeHighest: highestViewModel
+                    allTimeHighest: highestViewModel,
+                    userProfile: results.userProfile
                 }
             };
 
