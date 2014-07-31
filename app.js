@@ -188,9 +188,9 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
             var viewModel = {
                 leaderboards: {
                     allTimeFastest: fastestViewModel,
-                    allTimeHighest: highestViewModel,
-                    userProfile: results.userProfile
-                }
+                    allTimeHighest: highestViewModel
+                },
+                userProfile: results.userProfile
             };
 
             console.log('viewmodel = ' + JSON.stringify(viewModel));
