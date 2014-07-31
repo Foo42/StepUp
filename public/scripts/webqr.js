@@ -161,7 +161,6 @@ function read(qrCodeText) {
         console.log('stopping...');
         var climbDetails = stopTiming(floorNumber);
         submitTiming(climbDetails);
-        alert('stopped and submitted');
 
         var duration = (climbDetails.end.time - climbDetails.start.time) / 1000 + ' seconds';
         var startFloor = climbDetails.start.floor;
@@ -215,7 +214,6 @@ function success(stream) {
 }
 
 function error(error) {
-    alert(error);
     gUM = false;
     return;
 }
@@ -257,7 +255,6 @@ function setwebcam() {
             };
             console.log(backVideo);
             if (backVideo.length) {
-                alert(JSON.stringify(backVideo));
                 constrains.video = {
                     optional: [{
                         sourceId: backVideo[0].id
