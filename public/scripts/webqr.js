@@ -246,25 +246,25 @@ function setwebcam() {
 
     if (MediaStreamTrack && MediaStreamTrack.getSources) {
         MediaStreamTrack.getSources(function (sources) {
-                var backVideo = sources.filter(function (source) {
-                    console.log(source);
-                    return source.kind === 'video' && source.facing === 'environment'
-                });
+            var backVideo = sources.filter(function (source) {
+                console.log(source);
+                return source.kind === 'video' && source.facing === 'environment'
+            });
 
-                var constrains = {
-                    video: true,
-                    audio: false
-                };
-                console.log(backVideo);
-                if (backVideo.length) {
-                    alert(JSON.stringify(backVideo));
-                    constrains.video = {
-                        optional: [{
-                            sourceId: backVideo[0].id
-                        }]
-                    }
-                };
-            }
+            var constrains = {
+                video: true,
+                audio: false
+            };
+            console.log(backVideo);
+            if (backVideo.length) {
+                alert(JSON.stringify(backVideo));
+                constrains.video = {
+                    optional: [{
+                        sourceId: backVideo[0].id
+                    }]
+                }
+            };
+
 
             if (n.getUserMedia)
                 n.getUserMedia(constrains, success, error);
@@ -278,40 +278,42 @@ function setwebcam() {
 
             //document.getElementById("qrimg").src="qrimg2.png";
             //document.getElementById("webcamimg").src="webcam.png";
-            document.getElementById("qrimg").style.opacity = 0.2; document.getElementById("webcamimg").style.opacity = 1.0;
+            document.getElementById("qrimg").style.opacity = 0.2;
+            document.getElementById("webcamimg").style.opacity = 1.0;
 
-            stype = 1; setTimeout(captureToCanvas, 500);
+            stype = 1;
+            setTimeout(captureToCanvas, 500);
         });
-} else {
-    if (n.getUserMedia)
-        n.getUserMedia({
-            video: true,
-            audio: false
-        }, success, error);
-    else
-    if (n.webkitGetUserMedia) {
-        webkit = true;
-        n.webkitGetUserMedia({
-            video: true,
-            audio: false
-        }, success, error);
-    } else
-    if (n.mozGetUserMedia) {
-        moz = true;
-        n.mozGetUserMedia({
-            video: true,
-            audio: false
-        }, success, error);
+    } else {
+        if (n.getUserMedia)
+            n.getUserMedia({
+                video: true,
+                audio: false
+            }, success, error);
+        else
+        if (n.webkitGetUserMedia) {
+            webkit = true;
+            n.webkitGetUserMedia({
+                video: true,
+                audio: false
+            }, success, error);
+        } else
+        if (n.mozGetUserMedia) {
+            moz = true;
+            n.mozGetUserMedia({
+                video: true,
+                audio: false
+            }, success, error);
+        }
+
+        //document.getElementById("qrimg").src="qrimg2.png";
+        //document.getElementById("webcamimg").src="webcam.png";
+        document.getElementById("qrimg").style.opacity = 0.2;
+        document.getElementById("webcamimg").style.opacity = 1.0;
+
+        stype = 1;
+        setTimeout(captureToCanvas, 500);
     }
-
-    //document.getElementById("qrimg").src="qrimg2.png";
-    //document.getElementById("webcamimg").src="webcam.png";
-    document.getElementById("qrimg").style.opacity = 0.2;
-    document.getElementById("webcamimg").style.opacity = 1.0;
-
-    stype = 1;
-    setTimeout(captureToCanvas, 500);
-}
 
 }
 
