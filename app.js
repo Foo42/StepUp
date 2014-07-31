@@ -202,10 +202,17 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     });
 
     app.get('/profile', isAuthenticated, function (req, res) {
-        profileAccess.getProfileForUser(req.user, function (err, profile) {
+        async.parallel({
+            profile: profileAccess.getProfileForUser.bind(profileAccess, req.user),
+            sevenDayStats: profileAccess.getStatsForPeriod.bind(profileAccess, req.user, 7)
+        }, function (err, results) {
+            if (err) {
+                return res.send(err);
+            }
             res.render('profile', {
                 user: makeUserStuff(req),
-                profile: profile
+                profile: results.profile,
+                sevenDayStats: results.sevenDayStats
             });
         });
 
