@@ -2,6 +2,16 @@
     <div class="container">
         <section class="activity-feed col-md-8">
             <h1>Activity feed</h1>
+            {{#each activities}}
+	            <div class="activity-feed__profile">
+	                <img src="{{{user.picture}}}" height="124" width="124" alt="Ben Large" class="activity-feed__image">
+	                <ul class="activity-feed__info">
+	                    <li><h3>{{user.name}}</h3></li>
+	                    <li>Climbed <span class="hl">{{details.stepsAscended}}</span> steps</li>
+	                    <li>{{formattedDate}}</li>
+	                </ul>
+	            </div>
+            {{/each}}
             <div class="activity-feed__profile">
                 <img src="images/avatars/ben-l.jpg" height="124" width="124" alt="Ben Large" class="activity-feed__image">
                 <ul class="activity-feed__info">

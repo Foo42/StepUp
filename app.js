@@ -227,14 +227,17 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     app.get('/dashboard', isAuthenticated, function (req, res) {
         async.parallel({
             profile: profileAccess.getProfileForUser.bind(profileAccess, req.user),
-            sevenDayStats: profileAccess.getStatsForPeriod.bind(profileAccess, req.user, 7)
+            sevenDayStats: profileAccess.getStatsForPeriod.bind(profileAccess, req.user, 7),
+            recentActivities: activityQuerying.getRecentActivities.bind(activityQuerying, 2)
         }, function (err, results) {
             if (err) {
                 return res.send(err);
             }
+
             var vm = {
                 userProfile: results.profile,
-                sevenDayStats: results.sevenDayStats
+                sevenDayStats: results.sevenDayStats,
+                activities: results.recentActivities
             }
             console.log('dashboard vm ' + JSON.stringify(vm));
             res.render('dashboard', vm);
