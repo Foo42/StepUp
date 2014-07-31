@@ -1,4 +1,4 @@
-function calculateStepsClimbed(climbDetails) {
+function calculateClimbInfo(climbDetails) {
 	var startFloor = climbDetails.start.floor;
 	var endFloor = climbDetails.end.floor;
 
@@ -74,12 +74,21 @@ function calculateStepsClimbed(climbDetails) {
 	}
 
 	var totalSteps = 0;
+	var totalCalories = 0;
+	var totalFlights = 0;
 	for (var floor = endFloor; floor != startFloor; --floor) {
 		//console.log('looping. floor = ' + floor);
-		totalSteps += stairsByFloor[floor + ''].steps;
+		var flight = stairsByFloor[floor + ''];
+		totalSteps += flight.steps;
+		totalCalories += flight.calories;
+		totalFlights++
 	}
 
-	return totalSteps;
+	return {
+		stairs: totalSteps,
+		calories: totalCalories,
+		flights: totalFlights
+	};
 }
 
 function storeActivityRecord(db, climbDetails) {
@@ -157,10 +166,11 @@ function storeToUserProfile(db, user, climbDetails) {
 
 
 function augmentClimbDetails(climbDetails) {
-
-
 	climbDetails.durationInSeconds = ((climbDetails.end.time - climbDetails.start.time) / 1000);
-	climbDetails.stairsAscended = calculateStepsClimbed(climbDetails);
+	var climbInfo = calculateClimbInfo(climbDetails);
+	climbDetails.stairsAscended = climbInfo.stairs;
+	climbDetails.caloriesUsed = climbInfo.calories;
+	climbDetails.flightsAscended = climbDetails.flights;
 }
 
 module.exports = function (db) {
