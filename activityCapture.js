@@ -95,7 +95,7 @@ function storeActivityRecord(db, climbDetails) {
 	var activityRecord = {
 		type: 'climb',
 		date: new Date(climbDetails.start.time),
-		details: climbDetails
+		details: climbDetails,
 		user: {
 			id: user.id,
 			name: user.displayName,

@@ -12,11 +12,9 @@ module.exports = function (db) {
 		},
 
 		getHighestClimbers: function getFastestClimbs(number, callback) {
-			var activities = db.collection('activities');
-			activities.find({
-				type: 'climb'
-			}).sort({
-				"details.durationInSeconds": 1
+			var users = db.collection('users');
+			users.find({}).sort({
+				"totals.stepsAscended": -1
 			}).limit(3).toArray(function (err, docs) {
 				callback(err, docs);
 			});

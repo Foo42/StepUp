@@ -1,6 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var config = require(process.env.CONFIG_PATH || '/etc/stepup.json');
 var moment = require('moment');
+var async = require('async');
 var mongoConnectionString = 'mongodb://' + config.mongo.username + ':' + config.mongo.password + '@kahana.mongohq.com:10067/stepup';
 MongoClient.connect(mongoConnectionString, function (err, db) {
     if (err) {
@@ -126,39 +127,68 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
     });
 
     app.get('/leaderboard', isAuthenticated, function (req, res) {
-        activityQuerying.getFastestClimbs(3, function (err, climbs) {
+        async.parallel({
+            fastest: activityQuerying.getFastestClimbs.bind(activityQuerying, 3),
+            highest: activityQuerying.getHighestClimbers.bind(activityQuerying, 3)
+        }, function (err, results) {
             if (err) {
                 return res.send(500);
             }
+            var climbs = results.fastest;
             console.log('fastests climbs: ' +
                 JSON.stringify(climbs));
 
-            var position = 1;
             var trophyImages = {
                 1: 'images/badges/first.png',
                 2: 'images/badges/second.png',
                 3: 'images/badges/third.png',
             }
-            var climbsViewModel = climbs.map(function (climbRecord) {
-                var formattedDate = moment(new Date(parseInt(climbRecord.details.start.time))).format('h:mm a - dddd Do MMM YYYY');
-                return {
-                    trophyImage: trophyImages[position],
-                    position: position++,
-                    user: climbRecord.user,
-                    durationInSeconds: climbRecord.details.durationInSeconds,
-                    whenDone: formattedDate
-                };
-            });
+            var fastestViewModel = (function () {
+                var position = 1;
+                return climbs.map(function (climbRecord) {
+                    var formattedDate = moment(new Date(parseInt(climbRecord.details.start.time))).format('h:mm a - dddd Do MMM YYYY');
+                    return {
+                        trophyImage: trophyImages[position],
+                        position: position++,
+                        user: climbRecord.user || climbRecord.details.user,
+                        durationInSeconds: climbRecord.details.durationInSeconds,
+                        whenDone: formattedDate
+                    };
+                });
+            })();
+
+            var highestViewModel = (function () {
+                var position = 1;
+                return results.highest.map(function (user) {
+                    var userPicture;
+                    try {
+                        userPicture = user.photos[0].value;
+                    } catch (e) {}
+                    return {
+                        trophyImage: trophyImages[position],
+                        position: position++,
+                        user: {
+                            name: user.name,
+                            picture: userPicture
+                        },
+                        stairs: user.totals.stepsAscended,
+                    };
+                });
+            })();
+
+            console.log('highest vm: ' + JSON.stringify(highestViewModel));
 
             var viewModel = {
                 leaderboards: {
-                    allTime: climbsViewModel
+                    allTimeFastest: fastestViewModel,
+                    allTimeHighest: highestViewModel
                 }
             };
 
             console.log('viewmodel = ' + JSON.stringify(viewModel));
             res.render('leaderboard', viewModel);
         });
+
     });
 
     app.get('/profile', isAuthenticated, function (req, res) {
