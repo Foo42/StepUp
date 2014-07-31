@@ -94,13 +94,13 @@ function htmlEntities(str) {
 }
 
 function shouldStop(newFloorNumber) {
-    var storedStart = sessionStorage.getItem('stairTimingStart');
+    var storedStart = localStorage.getItem('stairTimingStart');
     if (!storedStart) {
         return false;
     }
 
     storedStart = JSON.parse(storedStart);
-    var tooLong = (new Date().getTime() - storedStart.time) > (20 * 60 * 1000);
+    var tooLong = (new Date().getTime() - storedStart.time) > (15 * 60 * 1000);
     if (tooLong) {
         return false;
     }
@@ -117,15 +117,62 @@ function startTiming(floor) {
         time: new Date().getTime(),
         floor: floor
     };
-    sessionStorage.setItem('stairTimingStart', JSON.stringify(start));
+    localStorage.setItem('stairTimingStart', JSON.stringify(start));
+    console.log('started timing. floor ' + floor);
 }
 
 function showLast() {
-    alert(sessionStorage.getItem(lastCompleteRun));
+    alert(localStorage
+        .getItem(lastCompleteRun));
 }
 
+function getUnsubmitted() {
+    return Object.keys(localStorage).filter(function (key) {
+        return /^unsubmitted-/.test(key);
+    }).map(function (key) {
+        return {
+            data: JSON.parse(localStorage.getItem(key)),
+            delete: localStorage.removeItem.bind(localStorage, key)
+        };
+    });
+}
+
+function attemptToSubmitResults() {
+    if (!navigator.onLine) {
+        console.log('Cannot submit results right now - offline');
+        alert('You appear to be offline. Try and find a signal and your result will be submitted when you are reconnected');
+        return;
+    }
+    var unsubmitted = getUnsubmitted();
+    if (unsubmitted.length) {
+        var resultToSubmit = unsubmitted[0];
+        console.log('attempting to submit a result for ' + resultToSubmit.data.start.floor + ' to ' + resultToSubmit.data.end.floor);
+        $.ajax({
+            type: "POST",
+            url: '/activity/stairs',
+            data: resultToSubmit.data,
+            success: function () {
+                resultToSubmit.delete();
+                attemptToSubmitResults();
+                alert('submitted');
+            },
+            error: function (err) {
+                console.log('error submitting result: ' + err);
+                if (navigator.onLine) {
+                    console.log('we seem to be online so trying again in 3 seconds...');
+                    setTimeout(attemptToSubmitResults, 3000); //backoff and try again
+                }
+            },
+            dataType: 'json'
+        });
+    }
+}
+
+window.addEventListener('online', attemptToSubmitResults);
+
 function stopTiming(floor) {
-    var storedStart = sessionStorage.getItem('stairTimingStart');
+    console.log('stopped timing. floor ' + floor);
+    var storedStart = localStorage.getItem('stairTimingStart');
     if (!storedStart) {
         throw new Error('not started yet');
     }
@@ -133,13 +180,15 @@ function stopTiming(floor) {
         time: new Date().getTime(),
         floor: floor
     };
-    sessionStorage.removeItem('stairTimingStart');
+
     var complete = {
         start: JSON.parse(storedStart),
         end: end
     };
-    sessionStorage.setItem('lastCompleteRun', JSON.stringify(complete));
-    return complete;
+
+    localStorage.setItem('unsubmitted-' + storedStart.time, JSON.stringify(complete));
+    localStorage.removeItem('stairTimingStart');
+    attemptToSubmitResults();
 }
 
 function submitTiming(climbDetails) {
