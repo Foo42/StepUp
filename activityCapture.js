@@ -95,7 +95,7 @@ function calculateClimbInfo(climbDetails) {
 	};
 }
 
-function storeActivityRecord(db, user, climbDetails) {
+function storeActivityRecord(db, user, climbDetails, callback) {
 	console.log('storing climb details to activityRecords');
 
 	var userPicture;
@@ -106,6 +106,7 @@ function storeActivityRecord(db, user, climbDetails) {
 	}
 
 	var activityRecord = {
+		_id: user.id + '-' + climbDetails.start.time,
 		type: 'climb',
 		date: new Date(parseInt(climbDetails.start.time)),
 		details: climbDetails,
@@ -120,8 +121,9 @@ function storeActivityRecord(db, user, climbDetails) {
 	activities.insert(activityRecord, function (err, docs) {
 		if (err) {
 			console.error('error saving climb ' + err);
+			return callback(err);
 		}
-
+		callback(null);
 		activities.count(function (err, count) {
 			console.log("records count = " + count);
 		});
@@ -195,8 +197,11 @@ module.exports = function (db) {
 			console.log(climbDetails);
 
 			augmentClimbDetails(climbDetails);
-			storeActivityRecord(db, user, climbDetails);
-			storeToUserProfile(db, user, climbDetails);
+			storeActivityRecord(db, user, climbDetails, function (err) {
+				if (!err) {
+					storeToUserProfile(db, user, climbDetails);
+				}
+			});
 
 			console.log('stairsAscended = ' + climbDetails.stairsAscended);
 		}

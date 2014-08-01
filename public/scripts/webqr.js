@@ -130,42 +130,67 @@ function getUnsubmitted() {
     return Object.keys(localStorage).filter(function (key) {
         return /^unsubmitted-/.test(key);
     }).map(function (key) {
+        var data = JSON.parse(localStorage.getItem(key));
         return {
-            data: JSON.parse(localStorage.getItem(key)),
+            id: data.start.time,
+            data: data,
             delete: localStorage.removeItem.bind(localStorage, key)
         };
     });
 }
 
+var currentlySubmitting = {};
+
+function isCurrentlySubmitting(item) {
+    return currentlySubmitting[item.id] !== undefined;
+}
+
+function getNextItemToTrySubmitting() {
+    return getUnsubmitted().filter(function (item) {
+        return !isCurrentlySubmitting(item)
+    })[0];
+}
+
 function attemptToSubmitResults() {
+    var nextItemToSubmit = getNextItemToTrySubmitting();
+    if (!nextItemToSubmit) {
+        return; //nothing to do
+    }
+
     if (!navigator.onLine) {
         console.log('Cannot submit results right now - offline');
         alert('You appear to be offline. Try and find a signal and your result will be submitted when you are reconnected');
         return;
     }
-    var unsubmitted = getUnsubmitted();
-    if (unsubmitted.length) {
-        var resultToSubmit = unsubmitted[0];
-        console.log('attempting to submit a result for ' + resultToSubmit.data.start.floor + ' to ' + resultToSubmit.data.end.floor);
-        $.ajax({
-            type: "POST",
-            url: '/activity/stairs',
-            data: resultToSubmit.data,
-            success: function () {
-                resultToSubmit.delete();
-                attemptToSubmitResults();
-                alert('submitted');
-            },
-            error: function (err) {
-                console.log('error submitting result: ' + err);
-                if (navigator.onLine) {
-                    console.log('we seem to be online so trying again in 3 seconds...');
-                    setTimeout(attemptToSubmitResults, 3000); //backoff and try again
-                }
-            },
-            dataType: 'json'
-        });
-    }
+
+    var resultToSubmit = nextItemToSubmit;
+    console.log('attempting to submit a result for ' + resultToSubmit.data.start.floor + ' to ' + resultToSubmit.data.end.floor);
+    currentlySubmitting[resultToSubmit.id] = resultToSubmit;
+    $.ajax({
+        type: "POST",
+        url: '/activity/stairs',
+        data: resultToSubmit.data,
+        success: function () {
+            delete currentlySubmitting[resultToSubmit.id];
+            resultToSubmit.delete();
+            alert('submitted result');
+
+            attemptToSubmitResults(); //recurse to submit any next
+        },
+        error: function (err, textStatus) {
+            console.log('error submitting result: ' + err);
+            delete currentlySubmitting[resultToSubmit.id];
+            if (navigator.onLine) {
+                console.log('we seem to be online so trying again in 3 seconds...');
+                setTimeout(attemptToSubmitResults, 3000); //backoff and try again
+            }
+        }
+    });
+}
+
+if (navigator.onLine && getNextItemToTrySubmitting()) {
+    alert('You seem to have ' + getUnsubmitted().length + ' results which have not been successfully submitted yet. These will be resubmitted now.');
+    attemptToSubmitResults();
 }
 
 window.addEventListener('online', attemptToSubmitResults);
@@ -183,12 +208,16 @@ function stopTiming(floor) {
 
     var complete = {
         start: JSON.parse(storedStart),
-        end: end
+        end: end,
+        meta: {
+            onlineAtEnd: navigator.onLine
+        }
     };
 
-    localStorage.setItem('unsubmitted-' + storedStart.time, JSON.stringify(complete));
+    localStorage.setItem('unsubmitted-' + JSON.parse(storedStart).time, JSON.stringify(complete));
     localStorage.removeItem('stairTimingStart');
     attemptToSubmitResults();
+    return complete;
 }
 
 function submitTiming(climbDetails) {
@@ -228,7 +257,6 @@ function read(qrCodeText) {
     if (shouldStop(floorNumber)) {
         console.log('stopping...');
         var climbDetails = stopTiming(floorNumber);
-        submitTiming(climbDetails);
 
         var duration = (climbDetails.end.time - climbDetails.start.time) / 1000 + ' seconds';
         var startFloor = climbDetails.start.floor;
@@ -236,11 +264,10 @@ function read(qrCodeText) {
 
         renderResults(duration, startFloor, endFloor);
     } else {
-        console.log('starting...');
         startTiming(floorNumber);
         alert('started');
     }
-    alert(a);
+    //alert(a);
     // var html="<br>";
     // if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
     //     html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";

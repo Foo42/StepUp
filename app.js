@@ -220,8 +220,15 @@ MongoClient.connect(mongoConnectionString, function (err, db) {
         res.render('scan2');
     });
 
-    app.post('/activity/stairs', isAuthenticated, function (req, res) {
+    app.post('/activity/stairs', function (req, res, next) {
+        if (req.isAuthenticated()) {
+            next();
+        } else {
+            res.send(401);
+        }
+    }, function (req, res) {
         activityCapture.recordStairClimb(req.user, req.body);
+        res.send(202);
     });
 
     app.get('/dashboard', isAuthenticated, function (req, res) {
