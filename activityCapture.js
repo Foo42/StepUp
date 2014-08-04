@@ -146,6 +146,7 @@ function storeToUserProfile(db, user, climbDetails) {
 				metresAscended: climbDetails.metresAscended,
 				time: climbDetails.durationInSeconds
 			};
+			newUserRecord.bestTime = climbDetails.durationInSeconds
 			users.insert(newUserRecord, function (err) {
 				if (err) {
 					console.log('error creating user record ' + err);
@@ -154,7 +155,7 @@ function storeToUserProfile(db, user, climbDetails) {
 				}
 			});
 		} else {
-			console.log('user found, updating');
+			console.log('user found, updating with climbDetails ' + JSON.stringify(climbDetails));
 			users.update({
 				id: user.id
 			}, {
@@ -163,10 +164,11 @@ function storeToUserProfile(db, user, climbDetails) {
 					'totals.caloriesUsed': climbDetails.caloriesUsed,
 					'totals.metresAscended': climbDetails.metresAscended,
 					'totals.time': climbDetails.durationInSeconds
-				},
-				$min: {
-					'bestTime': climbDetails.durationInSeconds
 				}
+				// ,
+				// $min: {
+				// 	'bestTime': climbDetails.durationInSeconds
+				// }
 			}, {
 				upsert: false
 			}, function (err) {
